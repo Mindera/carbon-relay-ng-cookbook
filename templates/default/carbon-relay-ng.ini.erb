@@ -1,0 +1,31 @@
+# This file is managed by Chef, your changes *will* be overwritten!
+
+instance = "<%= node['carbon-relay-ng']['instance'] %>"
+listen_addr = "<%= node['carbon-relay-ng']['listen_addr'] %>"
+<% if node['carbon-relay-ng']['admin']['enabled'] %>
+admin_addr = "<%= node['carbon-relay-ng']['admin_addr'] %>"
+<% else %>
+admin_addr = ""
+<% end %>
+<% if node['carbon-relay-ng']['http']['enabled'] %>
+http_addr = "<%= node['carbon-relay-ng']['http_addr'] %>"
+<% else %>
+http_addr = ""
+<% end %>
+log_level = "<%= node['carbon-relay-ng']['log_level'] %>"
+bad_metrics_max_age = "<%= node['carbon-relay-ng']['bad_metrics_max_age'] %>"
+<% if node['carbon-relay-ng']['spool']['enabled'] %>
+spool_dir = "<%= node['carbon-relay-ng']['spool']['directory'] %>"
+<% else %>
+spool_dir = ""
+<% end %>
+
+init = <%= node['carbon-relay-ng']['init'] %>
+
+[instrumentation]
+<% if node['carbon-relay-ng']['instrumentation']['graphite']['enabled'] %>
+graphite_addr = "<%= node['carbon-relay-ng']['instrumentation']['graphite_addr'] %>"
+<% else %>
+graphite_addr = ""
+<% end %>
+graphite_interval = <%= node['carbon-relay-ng']['instrumentation']['graphite_interval'] %>
