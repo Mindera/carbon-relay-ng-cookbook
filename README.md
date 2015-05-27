@@ -51,8 +51,8 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td><tt>['carbon-relay-ng']['admin']['enabled']</tt></td>
         <td>TrueClass/FalseClass</td>
         <td>carbon-relay-ng admin interface enabled</td>
-        <td>`true`, `false`</td>
-        <td><tt>`true`</tt></td>
+        <td>true, false</td>
+        <td><tt>true</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['admin_addr']</tt></td>
@@ -65,8 +65,8 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td><tt>['carbon-relay-ng']['http_addr']['enabled']</tt></td>
         <td>TrueClass/FalseClass</td>
         <td>carbon-relay-ng http interface enabled</td>
-        <td>`true`, `false`</td>
-        <td><tt>`true`</tt></td>
+        <td>true, false</td>
+        <td><tt>true</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['http_addr']</tt></td>
@@ -93,8 +93,8 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td><tt>['carbon-relay-ng']['spool']['enabled']</tt></td>
         <td>TrueClass/FalseClass</td>
         <td>carbon-relay-ng spool enabled</td>
-        <td>`true`, `false`</td>
-        <td><tt>`true`</tt></td>
+        <td>true, false</td>
+        <td><tt>true</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['spool']['directory']</tt></td>
@@ -122,28 +122,28 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td>Array</td>
         <td>carbon-relay-ng init rules</td>
         <td>-</td>
-        <td><tt>`['addBlack prefix collectd.localhost']`</tt></td>
+        <td><tt>['addBlack prefix collectd.localhost']</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['instrumentation']['graphite']['enabled']</tt></td>
         <td>TrueClass/FalseClass</td>
         <td>graphite reporting enabled</td>
-        <td>`true`, `false`</td>
-        <td><tt>`false`</tt></td>
+        <td>true, false</td>
+        <td><tt>false</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['instrumentation']['graphite_addr']</tt></td>
         <td>String</td>
         <td>graphite address</td>
         <td>-</td>
-        <td><tt>`nil`</tt></td>
+        <td><tt>nil</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['instrumentation']['graphite_interval']</tt></td>
         <td>Integer</td>
         <td>graphite reporting interval in ms</td>
         <td>-</td>
-        <td><tt>`1000`</tt></td>
+        <td><tt>1000</tt></td>
     </tr>
 </table>
 
@@ -169,18 +169,58 @@ This is an attribute driven cookbook which means that the desired behaviour can 
        <td>String</td>
        <td>-</td>
        <td>-</td>
-       <td><tt>`#{node['carbon-relay-ng']['log_dir']}/carbon-relay-ng.log`</tt></td>
+       <td><tt>'#{node['carbon-relay-ng']['log_dir']}/carbon-relay-ng.log'</tt></td>
    </tr>
    <tr>
        <td><tt>['carbon-relay-ng']['supervisor']['stderr_logfile']</tt></td>
        <td>String</td>
        <td>-</td>
        <td>-</td>
-       <td><tt>`#{node['carbon-relay-ng']['log_dir']}/carbon-relay-ng.error.log`</tt></td>
+       <td><tt>'#{node['carbon-relay-ng']['log_dir']}/carbon-relay-ng.error.log'</tt></td>
    </tr>
 </table>
 
 See the supervisor [documentation](http://supervisord.org/configuration.html#program-x-section-values) for each attribute description.
+
+### go.rb
+
+<table>
+   <tr>
+       <th>Attribute</th>
+       <th>Type</th>
+       <th>Description</th>
+       <th>Options</th>
+       <th>Default</th>
+   </tr>
+   <tr>
+       <td><tt>['go']['bin']</tt></td>
+       <td>String</td>
+       <td>Go bin PATH</td>
+       <td>-</td>
+       <td><tt>'/opt/go/bin'</tt></td>
+   </tr>
+   <tr>
+       <td><tt>['go']['gopath']</tt></td>
+       <td>String</td>
+       <td>Go PATH</td>
+       <td>-</td>
+       <td><tt>'/opt/go'</tt></td>
+   </tr>
+   <tr>
+       <td><tt>['go']['owner']</tt></td>
+       <td>String</td>
+       <td>Go user</td>
+       <td>-</td>
+       <td><tt>'root'</tt></td>
+   </tr>
+   <tr>
+       <td><tt>['go']['group']</tt></td>
+       <td>String</td>
+       <td>Go group</td>
+       <td>-</td>
+       <td><tt>'root'</tt></td>
+   </tr>
+</table>
 
 ### Up the chain
 
