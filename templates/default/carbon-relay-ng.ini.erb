@@ -1,14 +1,14 @@
 # This file is managed by Chef, your changes *will* be overwritten!
 
 instance = "<%= node['carbon-relay-ng']['instance'] %>"
-listen_addr = "<%= node['carbon-relay-ng']['listen_addr'] %>"
+listen_addr = "<%= node['carbon-relay-ng']['listen']['host'] %>:<%= node['carbon-relay-ng']['listen']['port'] %>"
 <% if node['carbon-relay-ng']['admin']['enabled'] %>
-admin_addr = "<%= node['carbon-relay-ng']['admin_addr'] %>"
+admin_addr = "<%= node['carbon-relay-ng']['admin']['host'] %>:<%= node['carbon-relay-ng']['admin']['port'] %>"
 <% else %>
 admin_addr = ""
 <% end %>
 <% if node['carbon-relay-ng']['http']['enabled'] %>
-http_addr = "<%= node['carbon-relay-ng']['http_addr'] %>"
+http_addr = "<%= node['carbon-relay-ng']['http']['host'] %>:<%= node['carbon-relay-ng']['http']['port'] %>"
 <% else %>
 http_addr = ""
 <% end %>
