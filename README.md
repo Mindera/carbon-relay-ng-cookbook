@@ -41,11 +41,18 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td><tt>'default'</tt></td>
     </tr>
     <tr>
-        <td><tt>['carbon-relay-ng']['listen_addr']</tt></td>
+        <td><tt>['carbon-relay-ng']['listen']['host']</tt></td>
         <td>String</td>
-        <td>carbon-relay-ng listen address</td>
+        <td>carbon-relay-ng listen host</td>
         <td>-</td>
-        <td><tt>'0.0.0.0:2003'</tt></td>
+        <td><tt>'0.0.0.0'</tt></td>
+    </tr>
+    <tr>
+        <td><tt>['carbon-relay-ng']['listen']['port']</tt></td>
+        <td>Integer</td>
+        <td>carbon-relay-ng listen port</td>
+        <td>-</td>
+        <td><tt>2003</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['admin']['enabled']</tt></td>
@@ -55,25 +62,39 @@ This is an attribute driven cookbook which means that the desired behaviour can 
         <td><tt>true</tt></td>
     </tr>
     <tr>
-        <td><tt>['carbon-relay-ng']['admin_addr']</tt></td>
+        <td><tt>['carbon-relay-ng']['admin']['host']</tt></td>
         <td>String</td>
-        <td>carbon-relay-ng admin address</td>
+        <td>carbon-relay-ng admin interface host</td>
         <td>-</td>
-        <td><tt>'0.0.0.0:2004'</tt></td>
+        <td><tt>'0.0.0.0'</tt></td>
     </tr>
     <tr>
-        <td><tt>['carbon-relay-ng']['http_addr']['enabled']</tt></td>
+        <td><tt>['carbon-relay-ng']['admin']['port']</tt></td>
+        <td>Integer</td>
+        <td>carbon-relay-ng admin interface port</td>
+        <td>-</td>
+        <td><tt>2004</tt></td>
+    </tr>
+    <tr>
+        <td><tt>['carbon-relay-ng']['http']['enabled']</tt></td>
         <td>TrueClass/FalseClass</td>
         <td>carbon-relay-ng http interface enabled</td>
         <td>true, false</td>
         <td><tt>true</tt></td>
     </tr>
     <tr>
-        <td><tt>['carbon-relay-ng']['http_addr']</tt></td>
+        <td><tt>['carbon-relay-ng']['http']['host']</tt></td>
         <td>String</td>
-        <td>carbon-relay-ng http address</td>
+        <td>carbon-relay-ng http interface host</td>
         <td>-</td>
-        <td><tt>'0.0.0.0:8081'</tt></td>
+        <td><tt>'0.0.0.0'</tt></td>
+    </tr>
+    <tr>
+        <td><tt>['carbon-relay-ng']['http']['port']</tt></td>
+        <td>Integer</td>
+        <td>carbon-relay-ng http interface port</td>
+        <td>-</td>
+        <td><tt>8081</tt></td>
     </tr>
     <tr>
         <td><tt>['carbon-relay-ng']['bad_metrics_max_age']</tt></td>
