@@ -5,7 +5,7 @@
 # Copyright 2015, Mindera
 #
 
-if node['carbon-relay-ng']['supervisor']
+if node['carbon-relay-ng']['supervisor']['enable']
   include_recipe 'supervisor'
 elsif node['init_package'].equal?('systemd')
   template '/etc/systemd/system/carbon.service' do
