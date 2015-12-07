@@ -5,7 +5,24 @@
 # Copyright 2015, Mindera
 #
 
-include_recipe 'supervisor'
+if node['carbon-relay-ng']['supervisor']
+  include_recipe 'supervisor'
+elsif node['init_package'].equal?('systemd')
+  template '/etc/systemd/system/carbon.service' do
+    source 'systemd.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+  end
+  bash 'systemd_carbon_setup' do
+    code <<-EOH
+      systemctl daemon-reload
+      systemctl enable carbon.service
+      systemctl start carbon.service
+    EOH
+  end
+end
+
 include_recipe 'golang'
 
 PATH = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/opt/go/bin'

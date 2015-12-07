@@ -1,0 +1,11 @@
+[Unit]
+Description=Carbon service control supervisor
+
+[Service]
+ExecStart="<%= node['go']['bin']%>/carbon-relay-ng <%=node['carbon-relay-ng']['config_dir']%>/carbon-relay-ng.ini"
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target
