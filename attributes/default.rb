@@ -35,7 +35,6 @@ default['carbon-relay-ng']['net-install'] = true
 default['carbon-relay-ng']['other-install'] = [
 ]
 
-
 default_unless['carbon-relay-ng']['init'] = [
   'addBlack prefix collectd.localhost'
 ]

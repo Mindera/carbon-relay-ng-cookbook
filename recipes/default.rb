@@ -34,8 +34,8 @@ GO_GROUP = node['go']['group']
 cmds = []
 
 cmds = [
-  "go get -u github.com/jteeuwen/go-bindata/...",
-  "go get -u -d github.com/graphite-ng/carbon-relay-ng/..."
+  'go get -u github.com/jteeuwen/go-bindata/...',
+  'go get -u -d github.com/graphite-ng/carbon-relay-ng/...'
 ] if node['carbon-relay-ng']['net-install']
 cmds = node['carbon-relay-ng']['other-install'] unless node['carbon-relay-ng']['net-install']
 cmds.each do |cmd|
@@ -43,9 +43,9 @@ cmds.each do |cmd|
     user GO_OWNER
     group GO_GROUP
     environment(
-        'GOPATH' => GO_PATH,
-        'GOBIN' => GO_BIN,
-        'PATH' => PATH
+      'GOPATH' => GO_PATH,
+      'GOBIN' => GO_BIN,
+      'PATH' => PATH
     )
   end
 end
@@ -55,9 +55,9 @@ execute 'make install' do
   group GO_GROUP
   cwd "#{GO_PATH}/src/github.com/graphite-ng/carbon-relay-ng"
   environment(
-      'GOPATH' => GO_PATH,
-      'GOBIN' => GO_BIN,
-      'PATH' => PATH
+    'GOPATH' => GO_PATH,
+    'GOBIN' => GO_BIN,
+    'PATH' => PATH
   )
   not_if { ::File.exist?("#{GO_BIN}/carbon-relay-ng") }
 end
