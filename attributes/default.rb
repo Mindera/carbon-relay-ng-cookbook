@@ -30,6 +30,12 @@ default_unless['carbon-relay-ng']['spool']['directory'] = '/var/spool/carbon-rel
 
 default['carbon-relay-ng']['supervisor']['enable'] = true
 
+default['carbon-relay-ng']['net-install'] = true
+
+default['carbon-relay-ng']['other-install'] = [
+]
+
+
 default_unless['carbon-relay-ng']['init'] = [
   'addBlack prefix collectd.localhost'
 ]

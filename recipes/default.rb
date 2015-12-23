@@ -8,18 +8,17 @@ if node['carbon-relay-ng']['supervisor']['enable']
   include_recipe 'supervisor'
   svc = 'supervisor_service[carbon-relay-ng]'
 elsif node['init_package'].equal?('systemd')
-  template '/etc/systemd/system/carbon.service' do
+  template '/etc/systemd/system/carbon-relay-ng.service' do
     source 'systemd.erb'
     owner 'root'
     group 'root'
     mode '0755'
   end
-  bash 'systemd_carbon_setup' do
-    code <<-EOH
-      systemctl daemon-reload
-      systemctl enable carbon.service
-      systemctl start carbon.service
-    EOH
+  service 'systemd' do
+    action :reload
+  end
+  service 'carbon-relay-ng' do
+    action [:enable, :start]
   end
 end
 
@@ -32,17 +31,21 @@ GO_PATH = node['go']['gopath']
 GO_OWNER = node['go']['owner']
 GO_GROUP = node['go']['group']
 
-[
-  'go get -u github.com/jteeuwen/go-bindata/...',
-  'go get -u -d github.com/graphite-ng/carbon-relay-ng/...'
-].each do |cmd|
+cmds = []
+
+cmds = [
+  "go get -u github.com/jteeuwen/go-bindata/...",
+  "go get -u -d github.com/graphite-ng/carbon-relay-ng/..."
+] if node['carbon-relay-ng']['net-install']
+cmds = node['carbon-relay-ng']['other-install'] unless node['carbon-relay-ng']['net-install']
+cmds.each do |cmd|
   execute cmd do
     user GO_OWNER
     group GO_GROUP
     environment(
-      'GOPATH' => GO_PATH,
-      'GOBIN' => GO_BIN,
-      'PATH' => PATH
+        'GOPATH' => GO_PATH,
+        'GOBIN' => GO_BIN,
+        'PATH' => PATH
     )
   end
 end
@@ -52,9 +55,9 @@ execute 'make install' do
   group GO_GROUP
   cwd "#{GO_PATH}/src/github.com/graphite-ng/carbon-relay-ng"
   environment(
-    'GOPATH' => GO_PATH,
-    'GOBIN' => GO_BIN,
-    'PATH' => PATH
+      'GOPATH' => GO_PATH,
+      'GOBIN' => GO_BIN,
+      'PATH' => PATH
   )
   not_if { ::File.exist?("#{GO_BIN}/carbon-relay-ng") }
 end
