@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe 'carbon-relay-ng::default' do
-  cached(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  cached(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
   cached(:node) { chef_run.node }
 
   before do
+    stub_command("/usr/local/go/bin/go version | grep \"go1.5 \"").and_return(true)
     stub_command("/usr/local/go/bin/go version | grep \"go1.4 \"").and_return(true)
   end
 
