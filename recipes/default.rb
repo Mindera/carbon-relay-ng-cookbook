@@ -4,8 +4,24 @@
 #
 # Copyright 2015, Mindera
 #
+if node['carbon-relay-ng']['supervisor']['enable']
+  include_recipe 'supervisor'
+  svc = 'supervisor_service[carbon-relay-ng]'
+elsif node['init_package'].equal?('systemd')
+  template '/etc/systemd/system/carbon-relay-ng.service' do
+    source 'systemd.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+  end
+  service 'systemd' do
+    action :reload
+  end
+  service 'carbon-relay-ng' do
+    action [:enable, :start]
+  end
+end
 
-include_recipe 'supervisor'
 include_recipe 'golang'
 
 PATH = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/opt/go/bin'
@@ -15,10 +31,14 @@ GO_PATH = node['go']['gopath']
 GO_OWNER = node['go']['owner']
 GO_GROUP = node['go']['group']
 
-[
+cmds = []
+
+cmds = [
   'go get -u github.com/jteeuwen/go-bindata/...',
   'go get -u -d github.com/graphite-ng/carbon-relay-ng/...'
-].each do |cmd|
+] if node['carbon-relay-ng']['net-install']
+cmds = node['carbon-relay-ng']['other-install'] unless node['carbon-relay-ng']['net-install']
+cmds.each do |cmd|
   execute cmd do
     user GO_OWNER
     group GO_GROUP
@@ -68,7 +88,7 @@ end
 template "#{CARBON_CONF_DIR}/carbon-relay-ng.ini" do
   source 'carbon-relay-ng.ini.erb'
   backup false
-  notifies :restart, 'supervisor_service[carbon-relay-ng]', :delayed
+  notifies :restart, svc, :delayed
 end
 
 SUP_PROC_NAME = node['carbon-relay-ng']['supervisor']['process_name']
@@ -76,9 +96,15 @@ SUP_STDOUT_LOG = node['carbon-relay-ng']['supervisor']['stdout_logfile']
 SUP_STDERR_LOG = node['carbon-relay-ng']['supervisor']['stderr_logfile']
 
 # TODO: add extra supervisor service configs
-supervisor_service 'carbon-relay-ng' do
-  command "#{GO_BIN}/carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
-  process_name SUP_PROC_NAME
-  stdout_logfile "#{CARBON_LOG_DIR}/#{SUP_STDOUT_LOG}"
-  stderr_logfile "#{CARBON_LOG_DIR}/#{SUP_STDERR_LOG}"
+if node['carbon-relay-ng']['supervisor']['enable']
+  supervisor_service 'carbon-relay-ng' do
+    command "#{GO_BIN}/carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
+    process_name SUP_PROC_NAME
+    stdout_logfile "#{CARBON_LOG_DIR}/#{SUP_STDOUT_LOG}"
+    stderr_logfile "#{CARBON_LOG_DIR}/#{SUP_STDERR_LOG}"
+  end
+else
+  service 'carbon' do
+    action :nothing
+  end
 end
