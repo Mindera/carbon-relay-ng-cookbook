@@ -11,7 +11,9 @@ packagecloud_repo 'raintank/raintank' do
   type 'deb'
 end
 
-package 'carbon-relay-ng'
+package 'carbon-relay-ng' do
+  version '0.8.1'
+end
 
 SPOOL_ENABLED = node['carbon-relay-ng']['spool']['enabled']
 SPOOL_DIR = node['carbon-relay-ng']['spool']['directory']
