@@ -30,7 +30,7 @@ GO_GROUP = node['go']['group']
   end
 end
 
-execute 'make install' do
+execute 'make' do
   user GO_OWNER
   group GO_GROUP
   cwd "#{GO_PATH}/src/github.com/graphite-ng/carbon-relay-ng"
