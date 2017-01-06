@@ -48,7 +48,7 @@ SUP_STDERR_LOG = node['carbon-relay-ng']['supervisor']['stderr_logfile']
 
 # TODO: add extra supervisor service configs
 supervisor_service 'carbon-relay-ng' do
-  command "#{GO_BIN}/carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
+  command "carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
   process_name SUP_PROC_NAME
   stdout_logfile "#{CARBON_LOG_DIR}/#{SUP_STDOUT_LOG}"
   stderr_logfile "#{CARBON_LOG_DIR}/#{SUP_STDERR_LOG}"
