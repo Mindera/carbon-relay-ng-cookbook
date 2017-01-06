@@ -6,40 +6,13 @@
 #
 
 include_recipe 'supervisor'
-include_recipe 'golang'
 
-PATH = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/opt/go/bin'
-
-GO_BIN = node['go']['bin']
-GO_PATH = node['go']['gopath']
-GO_OWNER = node['go']['owner']
-GO_GROUP = node['go']['group']
-
-[
-  'go get -u github.com/jteeuwen/go-bindata/...',
-  'go get -u -d github.com/graphite-ng/carbon-relay-ng/...'
-].each do |cmd|
-  execute cmd do
-    user GO_OWNER
-    group GO_GROUP
-    environment(
-      'GOPATH' => GO_PATH,
-      'GOBIN' => GO_BIN,
-      'PATH' => PATH
-    )
-  end
+packagecloud_repo 'raintank/raintank' do
+  type 'deb'
 end
 
-execute 'make install' do
-  user GO_OWNER
-  group GO_GROUP
-  cwd "#{GO_PATH}/src/github.com/graphite-ng/carbon-relay-ng"
-  environment(
-    'GOPATH' => GO_PATH,
-    'GOBIN' => GO_BIN,
-    'PATH' => PATH
-  )
-  not_if { ::File.exist?("#{GO_BIN}/carbon-relay-ng") }
+package 'carbon-relay-ng' do
+  version '0.8-1'
 end
 
 SPOOL_ENABLED = node['carbon-relay-ng']['spool']['enabled']
@@ -77,7 +50,7 @@ SUP_STDERR_LOG = node['carbon-relay-ng']['supervisor']['stderr_logfile']
 
 # TODO: add extra supervisor service configs
 supervisor_service 'carbon-relay-ng' do
-  command "#{GO_BIN}/carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
+  command "carbon-relay-ng #{CARBON_CONF_DIR}/carbon-relay-ng.ini"
   process_name SUP_PROC_NAME
   stdout_logfile "#{CARBON_LOG_DIR}/#{SUP_STDOUT_LOG}"
   stderr_logfile "#{CARBON_LOG_DIR}/#{SUP_STDERR_LOG}"
