@@ -12,7 +12,7 @@ packagecloud_repo 'raintank/raintank' do
 end
 
 package 'carbon-relay-ng' do
-  version '0.8.1'
+  version '0.8-1'
 end
 
 SPOOL_ENABLED = node['carbon-relay-ng']['spool']['enabled']
