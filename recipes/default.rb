@@ -6,41 +6,12 @@
 #
 
 include_recipe 'supervisor'
-include_recipe 'golang'
 
-PATH = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/opt/go/bin'
-
-GO_BIN = node['go']['bin']
-GO_PATH = node['go']['gopath']
-GO_OWNER = node['go']['owner']
-GO_GROUP = node['go']['group']
-
-[
-  'go get -u github.com/jteeuwen/go-bindata/...',
-  'go get -u -d github.com/graphite-ng/carbon-relay-ng/...'
-].each do |cmd|
-  execute cmd do
-    user GO_OWNER
-    group GO_GROUP
-    environment(
-      'GOPATH' => GO_PATH,
-      'GOBIN' => GO_BIN,
-      'PATH' => PATH
-    )
-  end
+packagecloud_repo 'raintank/raintank' do
+  type 'deb'
 end
 
-execute 'make' do
-  user GO_OWNER
-  group GO_GROUP
-  cwd "#{GO_PATH}/src/github.com/graphite-ng/carbon-relay-ng"
-  environment(
-    'GOPATH' => GO_PATH,
-    'GOBIN' => GO_BIN,
-    'PATH' => PATH
-  )
-  not_if { ::File.exist?("#{GO_BIN}/carbon-relay-ng") }
-end
+package 'carbon-relay-ng'
 
 SPOOL_ENABLED = node['carbon-relay-ng']['spool']['enabled']
 SPOOL_DIR = node['carbon-relay-ng']['spool']['directory']

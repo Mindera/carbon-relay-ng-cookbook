@@ -12,3 +12,4 @@ supports 'amazon'
 
 depends 'supervisor', '~> 0.4'
 depends 'golang',     '~> 1.5'
+depends 'packagecloud', '~> 0.2.0'
